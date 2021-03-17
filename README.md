@@ -10,4 +10,4 @@ CD into the "packer" directory and run "packer validate ami-image.json" and then
 And finally, CD into the "Terraform" directory and run "terraform init", "terraform plan" and "terraform apply"
 Use the outputted elb ip address in the terminal to view the different instance's ip addresses.
 
-Once done, run the command "terraform destroy" in the terminal and remove the packer created ami image in the aws console.
+Once done, run the command "terraform destroy" in the terminal.
