@@ -1,0 +1,21 @@
+{
+    "builders": [{
+        "type": "amazon-ebs",
+        "access_key": "INSERT KEY HERE",
+        "secret_key": "INSERT SECRET KEY HERE",
+        "region": "eu-west-1",
+        "ami_name": "packer-ubuntu-nginx-3",
+        "source_ami": "ami-0e5657f6d3c3ea350",
+        "instance_type": "t2.micro",
+        "ssh_username": "ubuntu"
+    }],
+    "provisioners": [{
+        "type": "shell",
+        "inline": [
+            "sleep 30",
+            "sudo apt update",
+            "sudo apt install nginx -y",
+            "sudo systemctl enable nginx"
+        ]
+    }]
+}
