@@ -10,6 +10,7 @@ resource "aws_vpc" "main" {
   }
 }
 
+
 # Subnets
 resource "aws_subnet" "main-public-1" {
   vpc_id                  = aws_vpc.main.id
@@ -55,18 +56,20 @@ resource "aws_nat_gateway" "gw" {
 
 #bastion host
 resource "aws_instance" "bastion-host" {
-  image_id        = var.AMI
+  ami        = var.AMI
   instance_type   = var.INSTANCE_TYPE
-  security_groups = [aws_security_group.myinstance.id]
   disable_api_termination = false
-
+  subnet_id     = aws_subnet.main-public-1.id
+  security_groups = [aws_security_group.bastion-SG.id]
+  tags = {
+    Name = "bastionHost"
+  }
 }
 
 resource "aws_eip" "bastion-host-eip" {
   instance = aws_instance.bastion-host.id
   vpc = true
 }
-
 
 # EIP NAT
 resource "aws_eip" "NAT-EIP" {
@@ -103,9 +106,10 @@ resource "aws_route_table" "custom-private" {
 resource "aws_route_table_association" "main-public-1-a" {
   subnet_id      = aws_subnet.main-public-1.id
   route_table_id = aws_route_table.main-public.id
-
+}
 # route associations private
 resource "aws_route_table_association" "main-private-1-a" {
   subnet_id      = aws_subnet.main-private-1.id
   route_table_id = aws_route_table.custom-private.id
+}
 
