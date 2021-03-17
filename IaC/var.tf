@@ -7,5 +7,5 @@ variable "INSTANCE_TYPE" {
 }
 
 variable "AMI" {
-    default = "UPDATE ME WITH THE OUTPUTTED PACKER AMI"
+    default = "ami-0d124cbf977154655"
 }
