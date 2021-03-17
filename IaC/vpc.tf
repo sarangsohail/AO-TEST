@@ -53,6 +53,21 @@ resource "aws_nat_gateway" "gw" {
   }
 }
 
+#bastion host
+resource "aws_instance" "bastion-host" {
+  image_id        = var.AMI
+  instance_type   = var.INSTANCE_TYPE
+  security_groups = [aws_security_group.myinstance.id]
+  disable_api_termination = false
+
+}
+
+resource "aws_eip" "bastion-host-eip" {
+  instance = aws_instance.bastion-host.id
+  vpc = true
+}
+
+
 # EIP NAT
 resource "aws_eip" "NAT-EIP" {
   vpc      = true
